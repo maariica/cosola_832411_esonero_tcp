@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
 	weather_request_t req;
 	memset(&req, 0, sizeof(req));
 	req.type = type;
-	strncpy(req.city, city, 64 - 1);
+	snprintf(req.city, sizeof(req.city), "%s", city);
 
 	// Send data to server
 	if (send(c_socket, &req, sizeof(weather_request_t), 0)
@@ -168,7 +168,7 @@ int main(int argc, char *argv[]) {
 	int bytes_rcvd;
 	int total_bytes_rcvd = 0;
 
-	while (total_bytes_rcvd < sizeof(weather_response_t)) {
+	while (total_bytes_rcvd < (int)sizeof(weather_response_t)) {
 		if ((bytes_rcvd = recv(c_socket, ((char*) &resp) + total_bytes_rcvd,
 				sizeof(weather_response_t) - total_bytes_rcvd, 0)) <= 0) {
 			errorhandler("recv() failed or connection closed prematurely\n");

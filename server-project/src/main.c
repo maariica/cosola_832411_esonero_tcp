@@ -187,7 +187,7 @@ int main(int argc, char *argv[]) {
 		int bytes_rcvd;
 		int total_bytes_rcvd = 0;
 
-		while (total_bytes_rcvd < sizeof(weather_request_t)) {
+		while (total_bytes_rcvd < (int)sizeof(weather_request_t)) {
 			if ((bytes_rcvd = recv(client_socket,
 					((char*) &req) + total_bytes_rcvd,
 					sizeof(weather_request_t) - total_bytes_rcvd, 0)) <= 0) {
@@ -198,7 +198,7 @@ int main(int argc, char *argv[]) {
 			}
 			total_bytes_rcvd += bytes_rcvd;
 		}
-		if (total_bytes_rcvd < sizeof(weather_request_t))
+		if (total_bytes_rcvd < (int)sizeof(weather_request_t))
 			continue;
 
 		// Safety: Ensure null-termination
